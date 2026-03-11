@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>N-Queens Solver</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="nqueens-style.css">
+</head>
+<body>
+<div class="app">
+
+  <!-- ── HEADER ── -->
+  <header>
+    <div class="title-group">
+      <h1>♛ N-Queens Solver</h1>
+      <p>Place queens on the board so none can attack each other</p>
+    </div>
+    <div class="header-stats">
+      <div class="stat">
+        <div class="stat-label">Best Score</div>
+        <div class="stat-value" id="best-score">0</div>
+      </div>
+      <div class="stat">
+        <div class="stat-label">Solved</div>
+        <div class="stat-value" id="solved-count">0</div>
+      </div>
+    </div>
+  </header>
+
+  <!-- ── HOW TO PLAY ── -->
+  <div class="how-to-play">
+    🎓 <strong>How to play:</strong>
+    Click any square to place a queen <strong>♛</strong>.
+    Click it again to remove.
+    Queens turn <span style="color:var(--red);font-weight:600">red</span> if they attack each other.
+    Place <strong>N queens</strong> with <strong>no conflicts</strong> to win!
+    Red squares show where queens are currently attacking.
+  </div>
+
+  <!-- ── MAIN ── -->
+  <div class="main">
+
+    <!-- Board Column -->
+    <div class="board-section">
+      <div class="board-topbar">
+        <div>
+          <div class="board-topbar-label">Board Size</div>
+          <div class="board-topbar-val" id="size-label">8 × 8</div>
+        </div>
+        <div class="timer-display" id="timer">0:00</div>
+        <div style="text-align:right">
+          <div class="board-topbar-label">Queens Placed</div>
+          <div class="board-topbar-val" id="placed-count">0 / 8</div>
+        </div>
+      </div>
+
+      <!-- Chessboard (built by JS) -->
+      <div id="board"></div>
+
+      <!-- Status bar -->
+      <div class="status" id="status-bar">
+        <div class="status-dot" id="status-dot"></div>
+        <span id="status-text">Click any square to place a queen. Try to fill all N rows!</span>
+      </div>
+    </div>
+
+    <!-- Side Panel -->
+    <div class="side-panel">
+
+      <!-- Board size selector -->
+      <div class="card">
+        <div class="card-title">Board Size (N)</div>
+        <div class="n-selector" id="n-selector"></div>
+        <p style="font-size:11px;color:var(--muted);margin-top:10px">
+          Start with <strong>4</strong> or <strong>5</strong> if you're new!
+        </p>
+      </div>
+
+      <!-- Action buttons -->
+      <div class="card">
+        <div class="card-title">Controls</div>
+        <button class="btn primary" onclick="resetBoard()">🔄 New Game</button>
+        <button class="btn"         onclick="solveStep()">👣 Place Next Queen</button>
+        <button class="btn"         onclick="solveAll()">🔍 Show All Solutions</button>
+        <button class="btn danger"  onclick="clearBoard()">🗑️ Clear Board</button>
+      </div>
+
+      <!-- Solutions browser (hidden until solveAll is called) -->
+      <div class="card" id="solutions-card" style="display:none">
+        <div class="card-title">Solutions Found</div>
+        <div class="sol-nav">
+          <button class="nav-btn" id="prev-sol" onclick="navSol(-1)">‹</button>
+          <div class="sol-counter">
+            Solution <b id="sol-idx">1</b> of <b id="sol-total">0</b>
+          </div>
+          <button class="nav-btn" id="next-sol" onclick="navSol(1)">›</button>
+        </div>
+        <div class="sol-list" id="sol-list"></div>
+      </div>
+
+      <!-- High scores -->
+      <div class="card">
+        <div class="card-title">High Scores</div>
+        <div class="score-list" id="score-list">
+          <div class="no-scores">No scores yet — solve a puzzle!</div>
+        </div>
+        <button class="btn danger" style="margin-top:10px" onclick="clearScores()">
+          🗑️ Clear Scores
+        </button>
+      </div>
+
+    </div><!-- /side-panel -->
+  </div><!-- /main -->
+</div><!-- /app -->
+
+<!-- Toast notification -->
+<div class="toast" id="toast"></div>
+
+<!-- Win modal -->
+<div class="win-overlay" id="win-overlay">
+  <div class="win-card">
+    <div class="win-icon">🎉</div>
+    <div class="win-title">Puzzle Solved!</div>
+    <div class="win-pts"  id="win-pts">0</div>
+    <div class="win-label">points earned</div>
+    <div class="win-detail" id="win-detail"></div>
+    <div class="win-actions">
+      <button class="win-btn"     onclick="resetBoard(); closeWin()">Play Again</button>
+      <button class="win-btn sec" onclick="closeWin()">View Board</button>
+    </div>
+  </div>
+</div>
+
+<script src="nqueens.js"></script>
+</body>
+</html>
